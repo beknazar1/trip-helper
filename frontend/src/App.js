@@ -3,6 +3,7 @@ import LoginForm from './components/LoginForm'
 import SignupForm from './components/SignupForm'
 import Nav from './components/Nav'
 import './App.css'
+import AuthenticatedApp from './AuthenticatedApp'
 
 function App() {
   const [displayedForm, setDisplayedForm] = useState('')
@@ -74,10 +75,9 @@ function App() {
 
   return (
     <div className="App">
-      <Nav {...{displayForm, loggedIn, handleLogout}} />
+      <Nav {...{displayForm, loggedIn, handleLogout, username}} />
       {FORM[displayedForm]}
-      <h3>{loggedIn ? `Hello, ${username}` : 'Please Log In'}</h3>
-      Hi there
+      {loggedIn ? <AuthenticatedApp  {...{username}}/> : <p>Please log in</p>}
     </div>
   )
 }

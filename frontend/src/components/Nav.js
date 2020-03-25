@@ -1,19 +1,47 @@
 import React from 'react'
+import AppBar from '@material-ui/core/AppBar'
+import Toolbar from '@material-ui/core/Toolbar'
+import Button from '@material-ui/core/Button'
+import Typography from '@material-ui/core/Typography'
+import makeStyles from '@material-ui/core/styles/makeStyles'
 
-function Nav({displayForm, loggedIn, handleLogout}) {
+const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
+  },
+}));
+
+function Nav({displayForm, loggedIn, handleLogout, username}) {
+  const classes = useStyles()
+
   const loggedOutNav = (
-    <ul>
-      <li onClick={() => displayForm('login')}>login</li>
-      <li onClick={() => displayForm('signup')}>signup</li>
-    </ul>
+    <React.Fragment>
+      <Button color="inherit" onClick={() => displayForm('login')}>login</Button>
+      <Button color="inherit" onClick={() => displayForm('signup')}>signup</Button>
+    </React.Fragment>
   );
 
   const loggedInNav = (
-    <ul>
-      <li onClick={handleLogout}>logout</li>
-    </ul>
+    <React.Fragment>
+      <Typography className={classes.title}>Hello, {username}</Typography>
+      <Button color="inherit" onClick={handleLogout} className={classes.menuButton}>logout</Button>
+    </React.Fragment>
   )
-  return <div>{loggedIn ? loggedInNav : loggedOutNav}</div>
+  return (
+  <div className={classes.root}>
+    <AppBar position="static">
+      <Toolbar>
+        {loggedIn ? loggedInNav : loggedOutNav}
+      </Toolbar>
+    </AppBar>
+  </div>
+  )
 }
 
 export default Nav
