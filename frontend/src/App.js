@@ -18,7 +18,12 @@ function App() {
         },
       })
         .then(res => res.json())
-        .then(json => setUsername(json.username))
+        .then(json => {
+          if (json.detail)
+            handleLogout()
+          else
+            setUsername(json.username)
+        })
     }
   }, [loggedIn])
 
