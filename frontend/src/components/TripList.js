@@ -1,55 +1,20 @@
 import React, {useEffect, useState} from 'react'
-import Paper from '@material-ui/core/Paper'
 import {tripList} from '../api'
 import {makeStyles} from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
-import Table from '@material-ui/core/Table'
-import TableHead from '@material-ui/core/TableHead'
-import TableRow from '@material-ui/core/TableRow'
-import TableCell from '@material-ui/core/TableCell'
-import TableBody from '@material-ui/core/TableBody'
-import Title from './Title'
-import {Link as RouterLink} from 'react-router-dom'
+import Grid from '@material-ui/core/Grid'
+import Card from '@material-ui/core/Card'
+import CardContent from '@material-ui/core/CardContent'
+import Typography from '@material-ui/core/Typography'
+import CardHeader from '@material-ui/core/CardHeader'
+import {CardActions} from '@material-ui/core'
+import ButtonGroup from '@material-ui/core/ButtonGroup'
+import Button from '@material-ui/core/Button'
+import Fab from '@material-ui/core/Fab'
+import AddIcon from '@material-ui/icons/Add'
+import {Link} from 'react-router-dom'
 
-const drawerWidth = 240
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-  },
-  toolbar: {
-    paddingRight: 24, // keep right padding when drawer closed
-  },
-  toolbarIcon: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
-    ...theme.mixins.toolbar,
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  menuButton: {
-    marginRight: 36,
-  },
-  menuButtonHidden: {
-    display: 'none',
-  },
-  title: {
-    flexGrow: 1,
-  },
   appBarSpacer: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
@@ -60,14 +25,14 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4),
   },
-  paper: {
-    padding: theme.spacing(2),
-    display: 'flex',
-    overflow: 'auto',
-    flexDirection: 'column',
+  cardHeader: {
+    backgroundColor:
+      theme.palette.type === 'light' ? theme.palette.grey[200] : theme.palette.grey[700],
   },
-  fixedHeight: {
-    height: 240,
+    fab: {
+    position: 'absolute',
+    bottom: theme.spacing(2),
+    right: theme.spacing(2),
   },
 }))
 
@@ -87,32 +52,40 @@ const TripList = () => {
   return (
     <main className={classes.content}>
       <div className={classes.appBarSpacer}/>
-      <Container maxWidth="lg" className={classes.container}>
-        <Paper className={classes.paper}>
-          <Title>Trip List</Title>
-          <Table size="small">
-            <TableHead>
-              <TableRow>
-                <TableCell>Action</TableCell>
-                <TableCell>Date</TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell>Origin</TableCell>
-                <TableCell>Destination</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {trips.map((trip) => (
-                <TableRow key={trip.id}>
-                  <TableCell>Open</TableCell>
-                  <TableCell>{trip.scheduled_date}</TableCell>
-                  <TableCell>{trip.name}</TableCell>
-                  <TableCell>{trip.origin_city}, {trip.origin_state}</TableCell>
-                  <TableCell>{trip.destination_city}, {trip.destination_state}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </Paper>
+      <Container maxWidth="md" className={classes.container}>
+        <Grid container spacing={5} alignItems="flex-end">
+          {trips.map(trip =>
+            <Grid item key={trip.id} xs={12} sm={6} md={4}>
+              <Card>
+                <CardHeader
+                  title={trip.name}
+                  subheader={trip.scheduled_date}
+                  titleTypographyProps={{align: 'center'}}
+                  subheaderTypographyProps={{align: 'center'}}
+                  className={classes.cardHeader}
+                />
+                <CardContent>
+                  <Typography>
+                    From: {trip.origin_city}, {trip.origin_state}
+                  </Typography>
+                  <Typography>
+                    To: {trip.destination_city}, {trip.destination_state}
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <ButtonGroup size="small" fullWidth color="primary">
+                    <Button>Open</Button>
+                    <Button>Edit</Button>
+                    <Button>delete</Button>
+                  </ButtonGroup>
+                </CardActions>
+              </Card>
+            </Grid>,
+          )}
+        </Grid>
+        <Fab component={Link} to="trips/new" color="primary" aria-label="add" className={classes.fab}>
+          <AddIcon/>
+        </Fab>
       </Container>
     </main>
   )
