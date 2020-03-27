@@ -9,6 +9,7 @@ import TableRow from '@material-ui/core/TableRow'
 import TableCell from '@material-ui/core/TableCell'
 import TableBody from '@material-ui/core/TableBody'
 import Title from './Title'
+import {Link as RouterLink} from 'react-router-dom'
 
 const drawerWidth = 240
 const useStyles = makeStyles((theme) => ({
@@ -92,6 +93,7 @@ const TripList = () => {
           <Table size="small">
             <TableHead>
               <TableRow>
+                <TableCell>Action</TableCell>
                 <TableCell>Date</TableCell>
                 <TableCell>Name</TableCell>
                 <TableCell>Origin</TableCell>
@@ -101,6 +103,7 @@ const TripList = () => {
             <TableBody>
               {trips.map((trip) => (
                 <TableRow key={trip.id}>
+                  <TableCell>Open</TableCell>
                   <TableCell>{trip.scheduled_date}</TableCell>
                   <TableCell>{trip.name}</TableCell>
                   <TableCell>{trip.origin_city}, {trip.origin_state}</TableCell>
