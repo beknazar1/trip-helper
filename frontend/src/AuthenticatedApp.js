@@ -1,10 +1,16 @@
 import React from 'react'
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
+import TripList from './components/TripList'
 
-const AuthenticatedApp = ({username}) => {
+const AuthenticatedApp = ({}) => {
   return (
-  <div>
-    Hello There {username}
-  </div>
+  <Router>
+    <Switch>
+      <Route exact path="/">
+        <TripList/>
+      </Route>
+    </Switch>
+  </Router>
   )
 }
 

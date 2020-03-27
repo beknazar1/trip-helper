@@ -2,8 +2,8 @@ import React, {useEffect, useState} from 'react'
 import LoginForm from './components/LoginForm'
 import SignupForm from './components/SignupForm'
 import Nav from './components/Nav'
-import './App.css'
 import AuthenticatedApp from './AuthenticatedApp'
+import CssBaseline from '@material-ui/core/CssBaseline'
 
 function App() {
   const [displayedForm, setDisplayedForm] = useState('')
@@ -79,7 +79,8 @@ function App() {
   }
 
   return (
-    <div className="App">
+    <div>
+      <CssBaseline />
       <Nav {...{displayForm, loggedIn, handleLogout, username}} />
       {FORM[displayedForm]}
       {loggedIn ? <AuthenticatedApp  {...{username}}/> : <p>Please log in</p>}
