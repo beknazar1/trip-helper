@@ -4,6 +4,8 @@ import SignupForm from './components/SignupForm'
 import Nav from './components/Nav'
 import AuthenticatedApp from './AuthenticatedApp'
 import CssBaseline from '@material-ui/core/CssBaseline'
+import {MuiPickersUtilsProvider} from '@material-ui/pickers'
+import MomentUtils from '@date-io/moment'
 
 function App() {
   const [displayedForm, setDisplayedForm] = useState('')
@@ -79,12 +81,15 @@ function App() {
   }
 
   return (
-    <div>
-      <CssBaseline />
-      <Nav {...{displayForm, loggedIn, handleLogout, username}} />
-      {FORM[displayedForm]}
-      {loggedIn ? <AuthenticatedApp  {...{username}}/> : <p>Please log in</p>}
-    </div>
+    <MuiPickersUtilsProvider utils={MomentUtils}>
+      <div>
+        <CssBaseline/>
+        <Nav {...{displayForm, loggedIn, handleLogout, username}} />
+        {FORM[displayedForm]}
+        {loggedIn ? <AuthenticatedApp  {...{username}}/> : <p>Please log in</p>}
+      </div>
+    </MuiPickersUtilsProvider>
+
   )
 }
 
