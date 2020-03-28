@@ -1,5 +1,6 @@
-from django.http import HttpResponseRedirect
-from django.contrib.auth.models import User
+import os
+
+from googlemaps import Client
 from rest_framework import permissions, status, viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -40,7 +41,18 @@ class TripViewSet(viewsets.ModelViewSet):
     serializer_class = TripSerializer
 
     def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
+        gmaps = Client(key=os.environ['GOOGLE_MAPS_KEY'])
+        origin_city = f"{serializer.validated_data['origin_city']}, {serializer.validated_data['origin_state']}"
+        destination_city = f"{serializer.validated_data['destination_city']}, {serializer.validated_data['destination_state']}"
+        origin_gmaps = gmaps.find_place(origin_city, 'textquery', fields=['geometry', 'formatted_address'])
+        destination_gmaps = gmaps.find_place(destination_city, 'textquery', fields=['geometry', 'formatted_address'])
+        serializer.save(
+            owner=self.request.user,
+            origin_lat=origin_gmaps['candidates'][0]['geometry']['location']['lat'],
+            origin_lon=origin_gmaps['candidates'][0]['geometry']['location']['lng'],
+            destination_lat=destination_gmaps['candidates'][0]['geometry']['location']['lat'],
+            destination_lon=destination_gmaps['candidates'][0]['geometry']['location']['lng'],
+        )
 
     def get_queryset(self):
         owner_queryset = self.queryset.filter(owner=self.request.user)

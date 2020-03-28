@@ -43,3 +43,4 @@ class TripSerializer(serializers.ModelSerializer):
         model = Trip
         fields = ['id', 'name', 'scheduled_date', 'origin_city', 'origin_state', 'origin_lat', 'origin_lon',
                   'destination_city', 'destination_state', 'destination_lat', 'destination_lon', 'owner']
+        read_only_fields = ['origin_lat', 'origin_lon', 'destination_lat', 'destination_lon']
