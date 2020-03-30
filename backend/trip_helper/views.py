@@ -1,5 +1,7 @@
+import base64
 import os
 
+from django.http import HttpResponse
 from googlemaps import Client
 from rest_framework import permissions, status, viewsets
 from rest_framework.decorators import api_view
@@ -57,3 +59,14 @@ class TripViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         owner_queryset = self.queryset.filter(owner=self.request.user)
         return owner_queryset
+
+
+class GoogleMapsImage(APIView):
+    """
+    Get static images from Google Maps Static API
+    """
+    def get(self, request):
+        city = request.query_params['city']
+        gmaps = Client(key=os.environ['GOOGLE_MAPS_KEY'])
+        image = gmaps.static_map(center=city, size=600, zoom=12)
+        return HttpResponse(image, content_type="image/png", status=200)

@@ -19,7 +19,7 @@ export const tripCreate = (data) => django.post('trips/', {
   'destination_state': data.destinationState,
 })
 
-export const tripDetail = (tripId) => django.get(`trips/${tripId}/`).catch(err => err.response)
+export const tripDetail = (tripId) => django.get(`trips/${tripId}`).catch(err => err.response)
 
 export const tripUpdate = (data, tripId) => django.put(`trips/${tripId}/`, {
   'name': data.name,
