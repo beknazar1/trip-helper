@@ -89,7 +89,7 @@ const TripList = () => {
             </Grid>,
           )}
         </Grid>
-        <Fab component={Link} to="trips/new" color="primary" aria-label="add" className={classes.fab}>
+        <Fab component={Link} to="/trips/new/" color="primary" aria-label="add" className={classes.fab}>
           <AddIcon/>
         </Fab>
       </Container>
