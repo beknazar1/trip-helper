@@ -14,7 +14,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '71duub7_3&+^e5rff=8f82_r+ovcv%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['strawberry-tart-33846.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
