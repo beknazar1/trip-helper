@@ -8,6 +8,11 @@ const django = axios.create({
   headers: {'Authorization': `JWT ${localStorage.getItem('token')}`},
 })
 
+// django.interceptors.request.use(request => {
+//   console.log('Starting Request', request)
+//   return request
+// })
+
 export const tripList = () => django.get('trips/')
 
 export const tripCreate = (data) => django.post('trips/', {
@@ -30,3 +35,7 @@ export const tripUpdate = (data, tripId) => django.put(`trips/${tripId}/`, {
   'destination_state': data.destinationState,
 })
 export const tripDelete = (tripId) => django.delete(`trips/${tripId}/`)
+
+export const getStaticMap = (location) => django.get('images/', {responseType: 'blob', params: {city: location}})
+
+export const getWeatherInfo = (lat, lon, date) => django.get('weather/', {params: {lat: lat, lon: lon, date: date}})

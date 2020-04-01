@@ -1,6 +1,6 @@
-import base64
 import os
 
+import requests
 from django.http import HttpResponse
 from googlemaps import Client
 from rest_framework import permissions, status, viewsets
@@ -65,8 +65,25 @@ class GoogleMapsImage(APIView):
     """
     Get static images from Google Maps Static API
     """
+
     def get(self, request):
         city = request.query_params['city']
         gmaps = Client(key=os.environ['GOOGLE_MAPS_KEY'])
         image = gmaps.static_map(center=city, size=600, zoom=12)
         return HttpResponse(image, content_type="image/png", status=200)
+
+
+class DarkSkyWeather(APIView):
+    """
+    Fetch weather info from DarkSky
+    """
+
+    def get(self, request):
+        params = request.query_params
+        lat = params['lat']
+        lon = params['lon']
+        date = f"{params['date']}T12:00:00"
+        key = os.environ['DARK_SKY_KEY']
+        r = requests.get(
+            f"https://api.darksky.net/forecast/{key}/{lat},{lon},{date}?exclude=currently,hourly,minutely,alerts,flags")
+        return Response(data=r.json(), status=r.status_code)

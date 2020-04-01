@@ -7,7 +7,7 @@ import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 import CardActions from '@material-ui/core/CardActions'
 import Button from '@material-ui/core/Button'
-
+import {getStaticMap, getWeatherInfo} from '../api'
 
 const useStyles = makeStyles({
   root: {
@@ -18,23 +18,31 @@ const useStyles = makeStyles({
   },
 })
 
-const LocationMap = ({direction, location}) => {
+const LocationMap = ({direction, location, data}) => {
   const classes = useStyles()
   const [image, setImage] = useState(null)
-
-  const fetchImage = () => {
-    fetch(`http://localhost:8000/api/images/?city=${location}`, {
-        headers: {
-          Authorization: `JWT ${localStorage.getItem('token')}`,
-        },
-      })
-        .then(res => res.blob())
-        .then(img => setImage(img))
-  }
+  const [weather, setWeather] = useState(null)
 
   useEffect(() => {
-    fetchImage()
-  }, [])
+    const fetchWeather = () => {
+      getWeatherInfo(data.lat, data.lon, data.scheduled_date)
+        .then(res => res.data)
+        .then(jsonData => setWeather(jsonData))
+    }
+
+    const fetchImage = () => {
+      getStaticMap(location)
+        .then(res => res.data)
+        .then(img => setImage(img))
+    }
+
+    if (data.scheduled_date) {
+      fetchWeather()
+      fetchImage()
+    }
+  }, [data, location])
+
+  const w = weather && weather.daily.data[0]
 
   return (
     <Card
@@ -50,6 +58,21 @@ const LocationMap = ({direction, location}) => {
           <Typography gutterBottom variant="h5" component="h2">
             {direction + location}
           </Typography>
+          {weather &&
+            <React.Fragment>
+              <Typography>
+                Weather forecast for {data.scheduled_date}: {w.summary || ''}
+              </Typography>
+              <Typography>
+                Chance of {w.precipType || 'precipitation'}: {w.precipProbability * 100 || 0}%
+              </Typography>
+              <Typography>
+                Low: {w.temperatureLow || 'missing'}
+              </Typography>
+              <Typography>
+                High: {w.temperatureHigh || 'missing'}
+              </Typography>
+            </React.Fragment>}
         </CardContent>
       </CardActionArea>
       <CardActions>

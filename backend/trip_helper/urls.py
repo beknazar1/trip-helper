@@ -1,6 +1,6 @@
 from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
-from .views import current_user, UserList, TripViewSet, GoogleMapsImage
+from .views import current_user, UserList, TripViewSet, GoogleMapsImage, DarkSkyWeather
 
 trip_list = TripViewSet.as_view({
     'get': 'list',
@@ -17,5 +17,6 @@ urlpatterns = format_suffix_patterns([
     path('users/', UserList.as_view()),
     path('trips/', trip_list, name='trip-list'),
     path('trips/<int:pk>', trip_detail, name='trip-detail'),
-    path('images/', GoogleMapsImage.as_view(), name="get-image")
+    path('images/', GoogleMapsImage.as_view(), name="get-image"),
+    path('weather/', DarkSkyWeather.as_view(), name="get-weather"),
 ])
