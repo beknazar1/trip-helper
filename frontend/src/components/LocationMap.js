@@ -5,9 +5,8 @@ import {makeStyles} from '@material-ui/core/styles'
 import CardActionArea from '@material-ui/core/CardActionArea'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
-import CardActions from '@material-ui/core/CardActions'
-import Button from '@material-ui/core/Button'
 import {getStaticMap, getWeatherInfo} from '../api'
+import Skeleton from '@material-ui/lab/Skeleton'
 
 const useStyles = makeStyles({
   root: {
@@ -49,16 +48,29 @@ const LocationMap = ({direction, location, data}) => {
       className={classes.root}
     >
       <CardActionArea>
-        {image && <CardMedia
-          className={classes.media}
-          image={URL.createObjectURL(image)}
-          title={`${direction + location}`}
-        />}
+        {image === null
+          ?
+          <Skeleton variant="rect" height={500}/>
+          :
+          <CardMedia
+            className={classes.media}
+            image={URL.createObjectURL(image)}
+            title={`${direction + location}`}
+          />
+        }
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
             {direction + location}
           </Typography>
-          {weather &&
+          {weather === null
+            ?
+            <React.Fragment>
+              <Skeleton height={24} width={500}/>
+              <Skeleton height={24} width={150}/>
+              <Skeleton height={24} width={150}/>
+              <Skeleton height={24} width={150}/>
+            </React.Fragment>
+            :
             <React.Fragment>
               <Typography>
                 Weather forecast for {data.scheduled_date}: {w.summary || ''}
@@ -72,17 +84,10 @@ const LocationMap = ({direction, location, data}) => {
               <Typography>
                 High: {w.temperatureHigh || 'missing'}
               </Typography>
-            </React.Fragment>}
+            </React.Fragment>
+          }
         </CardContent>
       </CardActionArea>
-      <CardActions>
-        <Button size="small" color="primary">
-          Share
-        </Button>
-        <Button size="small" color="primary">
-          Learn More
-        </Button>
-      </CardActions>
     </Card>
 
   )

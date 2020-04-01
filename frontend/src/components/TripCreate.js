@@ -8,6 +8,7 @@ import Grid from '@material-ui/core/Grid'
 import {KeyboardDatePicker} from '@material-ui/pickers'
 import Autocomplete from '@material-ui/lab/Autocomplete'
 import moment from 'moment'
+import Skeleton from '@material-ui/lab/Skeleton'
 
 const states = [
   {
@@ -286,7 +287,7 @@ const TripCreateEdit = () => {
     if (tripId) {
       tripDetail(tripId).then(r => {
         setName(r.data.name)
-        setScheduledDate(moment(r.data.scheduled_date).date())
+        setScheduledDate(moment(r.data.scheduled_date))
         setOriginCity(r.data.origin_city)
         setOriginState(states.find(state => state.abbreviation === r.data.origin_state).name)
         setDestinationCity(r.data.destination_city)
@@ -303,90 +304,95 @@ const TripCreateEdit = () => {
       originCity,
       originState: states.find(state => state.name === originState).abbreviation,
       destinationCity,
-      destinationState: states.find(state => state.name === destinationState).abbreviation
+      destinationState: states.find(state => state.name === destinationState).abbreviation,
     }
 
     let apiCall = tripId ? tripUpdate : tripCreate
 
-    apiCall(data).then(r => {
+    apiCall(data, tripId).then(r => {
       history.push(`/trips/${tripId || r.data.id}`)
     })
   }
+
   return (
     <main className={classes.layout}>
       <Paper className={classes.paper}>
-        <Grid container component="form" spacing={3} onSubmit={handleSubmit}>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              required
-              id="name"
-              label="Name"
-              onChange={e => setName(e.target.value)}
-              value={name}
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <KeyboardDatePicker
-              required
-              autoOk
-              variant="inline"
-              label="Scheduled date"
-              format="MM/DD/YYYY"
-              value={scheduledDate}
-              InputAdornmentProps={{position: 'start'}}
-              onChange={date => setScheduledDate(date)}
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              required
-              id="origin-city"
-              label="Origin City"
-              onChange={e => setOriginCity(e.target.value)}
-              value={originCity}
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Autocomplete
-              id="origin-state"
-              options={states}
-              getOptionLabel={option => option.name}
-              renderInput={params => <TextField {...params} label="Origin State"/>}
-              onChange={(e, v) => setOriginState(v.name)}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              required
-              id="destination-city"
-              label="City of Destination"
-              onChange={e => setDestinationCity(e.target.value)}
-              value={destinationCity}
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Autocomplete
-              id="destination-state"
-              options={states}
-              getOptionLabel={option => option.name}
-              renderInput={params => <TextField {...params} label="Origin State"/>}
-              onChange={(e, v) => setDestinationState(v.name)}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Button variant="contained" color="primary"
-                    type="submit">{tripId ? 'Update' : 'Create'} Trip</Button>
-          </Grid>
+        {(tripId && !name) ? <Skeleton variant="rect" width={550} height={276} /> :
+          <Grid container component="form" spacing={3} onSubmit={handleSubmit}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                id="name"
+                label="Name"
+                onChange={e => setName(e.target.value)}
+                value={name}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <KeyboardDatePicker
+                required
+                autoOk
+                variant="inline"
+                label="Scheduled date"
+                format="MM/DD/YYYY"
+                value={scheduledDate}
+                InputAdornmentProps={{position: 'start'}}
+                onChange={date => setScheduledDate(date)}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                id="origin-city"
+                label="Origin City"
+                onChange={e => setOriginCity(e.target.value)}
+                value={originCity}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Autocomplete
+                id="origin-state"
+                options={states}
+                value={originState}
+                getOptionLabel={option => option}
+                renderInput={params => <TextField {...params} label="Origin State"/>}
+                onChange={(e, v) => setOriginState(v.name)}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                id="destination-city"
+                label="City of Destination"
+                onChange={e => setDestinationCity(e.target.value)}
+                value={destinationCity}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Autocomplete
+                id="destination-state"
+                options={states}
+                value={destinationState}
+                getOptionLabel={option => option}
+                renderInput={params => <TextField {...params} label="Origin State"/>}
+                onChange={(e, v) => setDestinationState(v.name)}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Button variant="contained" color="primary"
+                      type="submit">{tripId ? 'Update' : 'Create'} Trip</Button>
+            </Grid>
 
-        </Grid>
+          </Grid>
+        }
       </Paper>
     </main>
-
   )
+  // }
 }
 
 export default TripCreateEdit

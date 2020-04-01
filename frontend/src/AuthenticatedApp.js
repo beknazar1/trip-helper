@@ -8,9 +8,6 @@ const AuthenticatedApp = () => {
   return (
   <Router>
     <Switch>
-      <Route exact path="/">
-        <TripList/>
-      </Route>
       <Route exact path="/trips/new">
         <TripCreateEdit/>
       </Route>
@@ -19,6 +16,9 @@ const AuthenticatedApp = () => {
       </Route>
       <Route path="/trips/:tripId">
         <TripDetailPage/>
+      </Route>
+      <Route exact path={["/trips", "/"]}>
+        <TripList/>
       </Route>
     </Switch>
   </Router>

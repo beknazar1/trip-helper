@@ -56,7 +56,7 @@ const TripList = () => {
         <Grid container spacing={5} alignItems="flex-end">
           {trips.map(trip =>
             <Grid item key={trip.id} xs={12} sm={6} md={4}>
-              <Card>
+              <Card onClick={() => console.log('Hello there')}>
                 <CardHeader
                   title={trip.name}
                   subheader={trip.scheduled_date}
@@ -74,8 +74,8 @@ const TripList = () => {
                 </CardContent>
                 <CardActions>
                   <ButtonGroup size="small" fullWidth color="primary">
-                    <Button>Open</Button>
-                    <Button>Edit</Button>
+                    <Button component={Link} to={`/trips/${trip.id}`}>Open</Button>
+                    <Button component={Link} to={`/trips/${trip.id}/edit`}>Edit</Button>
                     <Button>delete</Button>
                   </ButtonGroup>
                 </CardActions>
