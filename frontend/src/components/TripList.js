@@ -14,6 +14,7 @@ import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add'
 import {Link} from 'react-router-dom'
 import AlertDialog from './AlertDialog'
+import SimpleBreadcrumbs from './Breadcrumbs'
 
 const useStyles = makeStyles((theme) => ({
   appBarSpacer: theme.mixins.toolbar,
@@ -30,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor:
       theme.palette.type === 'light' ? theme.palette.grey[200] : theme.palette.grey[700],
   },
-    fab: {
+  fab: {
     position: 'absolute',
     bottom: theme.spacing(2),
     right: theme.spacing(2),
@@ -57,7 +58,7 @@ const TripList = () => {
 
   return (
     <main className={classes.content}>
-      <div className={classes.appBarSpacer}/>
+      <SimpleBreadcrumbs/>
       <Container maxWidth="md" className={classes.container}>
         <Grid container spacing={5} alignItems="flex-end">
           {trips.map(trip =>

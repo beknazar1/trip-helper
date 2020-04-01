@@ -2,11 +2,10 @@ import React, {useEffect, useState} from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
-import Paper from '@material-ui/core/Paper'
 import LocationMap from '../components/LocationMap'
 import {useParams} from 'react-router-dom'
 import {tripDetail} from '../api'
-import Title from '../components/Title'
+import SimpleBreadcrumbs from '../components/Breadcrumbs'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -70,13 +69,9 @@ const TripDetailPage = () => {
   return (
     <div className={classes.root}>
       <main className={classes.content}>
+        <SimpleBreadcrumbs trip={origin.name || 'This Trip'}/>
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                <Title>Trip: {origin.name}</Title>
-              </Paper>
-            </Grid>
             <Grid item xs={12} lg={6}>
               <LocationMap
                 direction="Origin: "

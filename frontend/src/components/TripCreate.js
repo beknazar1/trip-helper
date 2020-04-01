@@ -9,6 +9,7 @@ import {KeyboardDatePicker} from '@material-ui/pickers'
 import Autocomplete from '@material-ui/lab/Autocomplete'
 import moment from 'moment'
 import Skeleton from '@material-ui/lab/Skeleton'
+import SimpleBreadcrumbs from './Breadcrumbs'
 
 const states = [
   {
@@ -316,6 +317,7 @@ const TripCreateEdit = () => {
 
   return (
     <main className={classes.layout}>
+      <SimpleBreadcrumbs trip={name} tripId={tripId} action={tripId ? 'Update Trip' : 'Create Trip'}/>
       <Paper className={classes.paper}>
         {(tripId && !name) ? <Skeleton variant="rect" width={550} height={276} /> :
           <Grid container component="form" spacing={3} onSubmit={handleSubmit}>
