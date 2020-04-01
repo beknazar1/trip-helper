@@ -80,14 +80,14 @@ const TripDetailPage = () => {
             <Grid item xs={12} lg={6}>
               <LocationMap
                 direction="Origin: "
-                location={'Chicago, IL'}
+                location={origin.city + ', ' + origin.state}
                 data={origin}
               />
             </Grid>
             <Grid item xs={12} lg={6}>
               <LocationMap
                 direction="Destination: "
-                location={'Washington, DC'}
+                location={destination.city + ', ' + destination.state}
                 data={destination}
               />
             </Grid>

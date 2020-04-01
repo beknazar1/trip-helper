@@ -355,11 +355,13 @@ const TripCreateEdit = () => {
             <Grid item xs={12} sm={6}>
               <Autocomplete
                 id="origin-state"
-                options={states}
+                options={states.map(state => state.name)}
                 value={originState}
-                getOptionLabel={option => option}
-                renderInput={params => <TextField {...params} label="Origin State"/>}
-                onChange={(e, v) => setOriginState(v.name)}
+                renderInput={params => <TextField {...params} required label="Origin State"/>}
+                onChange={(e, v) => setOriginState(v || '')}
+                autoHighlight={'true'}
+                autoSelect={'true'}
+                autoComplete={'true'}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -375,11 +377,13 @@ const TripCreateEdit = () => {
             <Grid item xs={12} sm={6}>
               <Autocomplete
                 id="destination-state"
-                options={states}
+                options={states.map(state => state.name)}
                 value={destinationState}
-                getOptionLabel={option => option}
-                renderInput={params => <TextField {...params} label="Origin State"/>}
-                onChange={(e, v) => setDestinationState(v.name)}
+                renderInput={params => <TextField {...params} required label="Origin State"/>}
+                onChange={(e, v) => setDestinationState(v || '')}
+                autoHighlight={'true'}
+                autoSelect={'true'}
+                autoComplete={'true'}
               />
             </Grid>
             <Grid item xs={12} sm={6}>

@@ -48,29 +48,22 @@ const LocationMap = ({direction, location, data}) => {
       className={classes.root}
     >
       <CardActionArea>
-        {image === null
+        {image
           ?
-          <Skeleton variant="rect" height={500}/>
-          :
           <CardMedia
             className={classes.media}
             image={URL.createObjectURL(image)}
             title={`${direction + location}`}
           />
+          :
+          <Skeleton variant="rect" height={500} animation="wave"/>
         }
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
             {direction + location}
           </Typography>
-          {weather === null
+          {weather
             ?
-            <React.Fragment>
-              <Skeleton height={24} width={500}/>
-              <Skeleton height={24} width={150}/>
-              <Skeleton height={24} width={150}/>
-              <Skeleton height={24} width={150}/>
-            </React.Fragment>
-            :
             <React.Fragment>
               <Typography>
                 Weather forecast for {data.scheduled_date}: {w.summary || ''}
@@ -84,6 +77,13 @@ const LocationMap = ({direction, location, data}) => {
               <Typography>
                 High: {w.temperatureHigh || 'missing'}
               </Typography>
+            </React.Fragment>
+            :
+            <React.Fragment>
+              <Skeleton height={24} width={500}/>
+              <Skeleton height={24} width={150}/>
+              <Skeleton height={24} width={150}/>
+              <Skeleton height={24} width={150}/>
             </React.Fragment>
           }
         </CardContent>
