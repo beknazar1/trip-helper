@@ -13,6 +13,7 @@ import Button from '@material-ui/core/Button'
 import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add'
 import {Link} from 'react-router-dom'
+import AlertDialog from './AlertDialog'
 
 const useStyles = makeStyles((theme) => ({
   appBarSpacer: theme.mixins.toolbar,
@@ -39,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
 const TripList = () => {
   const classes = useStyles()
   const [trips, setTrips] = useState([])
+  const [openDialog, setOpenDialog] = React.useState(false);
 
   useEffect(() => {
     tripList()
@@ -49,6 +51,10 @@ const TripList = () => {
       })
   }, [])
 
+  const handleDelete = (id) => {
+    setOpenDialog(trips.find(trip => trip.id === id))
+  }
+
   return (
     <main className={classes.content}>
       <div className={classes.appBarSpacer}/>
@@ -56,7 +62,7 @@ const TripList = () => {
         <Grid container spacing={5} alignItems="flex-end">
           {trips.map(trip =>
             <Grid item key={trip.id} xs={12} sm={6} md={4}>
-              <Card onClick={() => console.log('Hello there')}>
+              <Card>
                 <CardHeader
                   title={trip.name}
                   subheader={trip.scheduled_date}
@@ -76,7 +82,7 @@ const TripList = () => {
                   <ButtonGroup size="small" fullWidth color="primary">
                     <Button component={Link} to={`/trips/${trip.id}`}>Open</Button>
                     <Button component={Link} to={`/trips/${trip.id}/edit`}>Edit</Button>
-                    <Button>delete</Button>
+                    <Button onClick={() => handleDelete(trip.id)}>delete</Button>
                   </ButtonGroup>
                 </CardActions>
               </Card>
@@ -87,6 +93,7 @@ const TripList = () => {
           <AddIcon/>
         </Fab>
       </Container>
+      <AlertDialog {...{openDialog, setOpenDialog}} />
     </main>
   )
 }

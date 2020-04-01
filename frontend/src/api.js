@@ -34,7 +34,7 @@ export const tripUpdate = (data, tripId) => django.put(`trips/${tripId}`, {
   'destination_city': data.destinationCity,
   'destination_state': data.destinationState,
 })
-export const tripDelete = (tripId) => django.delete(`trips/${tripId}/`)
+export const tripDelete = (tripId) => django.delete(`trips/${tripId}`)
 
 export const getStaticMap = (location) => django.get('images/', {responseType: 'blob', params: {city: location}})
 
