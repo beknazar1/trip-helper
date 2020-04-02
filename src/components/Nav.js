@@ -29,7 +29,7 @@ function Nav({displayForm, loggedIn, handleLogout, username}) {
 
   const loggedInNav = (
     <React.Fragment>
-      <Typography className={classes.title}>Hello, {username}</Typography>
+      <Typography className={classes.title}>Welcome, {username.charAt(0).toUpperCase() + username.slice(1)}!</Typography>
       <Button color="inherit" onClick={handleLogout} className={classes.menuButton}>logout</Button>
     </React.Fragment>
   )

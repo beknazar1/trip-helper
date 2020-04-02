@@ -6,6 +6,7 @@ import AuthenticatedApp from './AuthenticatedApp'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import {MuiPickersUtilsProvider} from '@material-ui/pickers'
 import MomentUtils from '@date-io/moment'
+import HomePage from './pages/HomePage'
 
 function App() {
   const [displayedForm, setDisplayedForm] = useState('')
@@ -41,10 +42,10 @@ function App() {
       .then(res => res.json())
       .then(json => {
         localStorage.setItem('token', json.token)
-        setLoggedIn(true)
         setDisplayedForm('')
         setUsername(json.user.username)
       })
+      .then(res => setLoggedIn(true))
   }
 
   const handleSignup = (e, data) => {
@@ -59,10 +60,10 @@ function App() {
       .then(res => res.json())
       .then(json => {
         localStorage.setItem('token', json.token)
-        setLoggedIn(true)
         setDisplayedForm('')
         setUsername(json.username)
       })
+      .then(res => setLoggedIn(true))
   }
 
   const FORM = {
@@ -85,8 +86,7 @@ function App() {
       <div>
         <CssBaseline/>
         <Nav {...{displayForm, loggedIn, handleLogout, username}} />
-        {FORM[displayedForm]}
-        {loggedIn ? <AuthenticatedApp  {...{username}}/> : <p>Please log in</p>}
+        {loggedIn ? <AuthenticatedApp  {...{username}}/> : <HomePage form={FORM[displayedForm]}/>}
       </div>
     </MuiPickersUtilsProvider>
 
