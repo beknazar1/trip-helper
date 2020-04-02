@@ -14,7 +14,7 @@ function App() {
 
   useEffect(() => {
     if (loggedIn) {
-      fetch('http://localhost:8000/api/current_user/', {
+      fetch('/api/current_user/', {
         headers: {
           Authorization: `JWT ${localStorage.getItem('token')}`,
         },
@@ -31,7 +31,7 @@ function App() {
 
   const handleLogin = (e, data) => {
     e.preventDefault()
-    fetch('http://localhost:8000/token-auth/', {
+    fetch('/token-auth/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -49,7 +49,7 @@ function App() {
 
   const handleSignup = (e, data) => {
     e.preventDefault()
-    fetch('http://localhost:8000/api/users/', {
+    fetch('/api/users/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

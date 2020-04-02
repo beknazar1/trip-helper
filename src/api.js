@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API = 'http://localhost:8000/api/'
+const API = '/api/'
 
 const django = axios.create({
   baseURL: API,
