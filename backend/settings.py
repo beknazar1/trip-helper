@@ -14,7 +14,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '71duub7_3&+^e5rff=8f82_r+ovcv%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = ['strawberry-tart-33846.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['strawberry-tart-33846.herokuapp.com', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -27,7 +27,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'corsheaders',
     'trip_helper.apps.TripHelperConfig',
 ]
 
@@ -35,7 +34,6 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -122,9 +120,6 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'build', 'static'),
 )
 
-CORS_ORIGIN_WHITELIST = [
-    "http://localhost:3000",
-]
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (

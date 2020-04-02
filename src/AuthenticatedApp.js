@@ -21,7 +21,7 @@ const AuthenticatedApp = () => {
       <Route path="/trips">
         <TripList/>
       </Route>
-      <Route path="/">
+      <Route exact path="/">
         <HomePage />
       </Route>
     </Switch>
